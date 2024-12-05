@@ -1,0 +1,132 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
+{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
+\pard\sa160\sl259\slmult0\qj\ul\b\f0\fs28\lang9 PART-A\par
+\par
+\ulnone\fs24 Program2:Product and Purchase\par
+\fs22 step1:creating table\par
+\b0 SQL>create table Product(PID Number(10) Primary Key,Name Varchar2(20) Not Null,\par
+
+\pard\sa160\sl259\slmult0   Price Number(8,2));\par
+SQL>desc Product;\par
+SQL>create table Purchase(PO Number(10) Primary Key,PRODUCT_ID Number(10) references\par
+  Product(PID),Qty Number(5));\par
+\b step2:viewing all tables\par
+\b0 SQL>select table_name,status from User_tables;\par
+\b step3:insert into table\b0\par
+SQL>insert into product(PID,NAME,PRICE)values(10,'PRINTER',20000);\par
+SQL>insert into product(PID,NAME,PRICE)values(20,'KEYBOARD',15000);\par
+SQL>insert into product(PID,NAME,PRICE)values(30,'MONITOR',20000);\par
+SQL>insert into product(PID,NAME,PRICE)values(40,'TABLE',25000);\par
+SQL>insert into product(PID,NAME,PRICE)values(50,'SCANNER',14000);\par
+SQL>insert into purchase(PO,PRODUCT_ID,QTY)values(101,10,25);\par
+SQL>insert into purchase(PO,PRODUCT_ID,QTY)values(102,40,20);\par
+SQL>insert into purchase(PO,PRODUCT_ID,QTY)values(107,30,40);\par
+SQL>insert into purchase(PO,PRODUCT_ID,QTY)values(104,40,50);\par
+SQL>insert into purchase(PO,PRODUCT_ID,QTY)values(105,40,10);\par
+\b step4:dislay product and purchase table\par
+\b0 SQL>select *from product;\par
+SQL>select *from purchase;\par
+\b step5:update the product name for pid=40 as camera\par
+\b0   SQL>update product set Name='CAMERA' where PID=40;\par
+SQL>select *from product;\par
+\b step6:delete information about product whose pid=50\par
+\b0 SQL>DELETE from product where PID=50;\par
+SQL>select *from product;\par
+\b step7:perform saving and undoing\b0\par
+SQL>insert into product(PID,NAME,PRICE)values(50,'MOBILE',35000);\par
+SQL>insert into product(PID,NAME,PRICE)values(60,'LAPTOP',70000);\par
+ SQL>commit;\par
+SQL>select * from product;\par
+SQL>savepoint S1;\par
+SQL>insert into product(PID,NAME,PRICE)values(70,'TABLE',50000);\par
+SQL>insert into product(PID,NAME,PRICE)values(80,'CHAIR',25000);\par
+SQL>rollback to S1;\par
+SQL>select * from product;\par
+\par
+\b\fs28 3)altering table dropping/Truncating/Renaming\par
+\fs22 step1:creating table\b0\par
+SQL>create table lib(bid varchar2(8) primary key,title varchar2(20) not null,author varchar2(20),publication varchar2(20),year_of_publication number(4));\par
+\b step2:alter table name\par
+\b0 SQL>alter table  lib rename to library;\par
+\b step3: Add a new column price with not null constraints to the existing table library\par
+\b0 SQL>alter table library add price number(8,2) not null;\par
+\b step4: All constraints and views that reference the column are dropped automatically\b0\par
+SQL>alter table library drop column author cascade constraints;\par
+\b step5:rename bid to bookid\b0\par
+SQL> alter table library rename column bid to bookid;\par
+\b step6:change the datatype of column year_of_publication of length 15\par
+\b0 SQL>alter table library modify year_of_publication varchar2(15);\par
+\b step7:Insert data into table\par
+\b0 SQL>insert into library values('SP001','DBMS','Skyward Publication','2022',300);\par
+\b step8: Truncate table to delete the records\par
+\b0 SQL>truncate table library;\par
+\b step9: drop table\par
+\b0 SQL>drop table library;\par
+\b\fs28 Program(5-9):\par
+\ul\fs22 creating table:\par
+\ulnone\fs24 department table:\par
+\b0\fs22 SQL>create table dept(dno number(4) primary key,dname varchar2(20) not null,dlocation varchar2(20));\par
+\b\fs24 employee table:\par
+\b0\fs22 SQL>create table emp(eno number(6) primary key,ename varchar2(20) not null,ebdate date,address varchar2(20),gender char,salary number(10) not null,deptno number(4) references dept);\par
+\b\fs24 Project table:\b0\fs22\par
+SQL>create table project(pno number(10) primary key,pname varchar2(20) not null,dnum number(4) references dept);\par
+\b\fs24 works on table:\par
+\b0\fs22 SQL>create table works_on(eno number(6) references emp not null,pnum number(10) references project not null,hours number(3,1) not null,primary key(eno,pnum));\par
+\b\fs28 inserting into table:\par
+\fs24 department:\par
+\b0\fs22 SQL> insert into dept(dno,dname,dlocation)values(2,'Accounts','Jayanagar');\par
+SQL> insert into dept(dno,dname,dlocation)values(4,'Research','Kengeri');\par
+SQL> insert into dept(dno,dname,dlocation)values(5,'Admin','SouthEnd');\par
+\b\fs24 Employee:\par
+\b0\fs22 SQL> insert into emp(eno,ename,ebdate,address,gender,salary,deptno)values(1001,'Anirudh','14-jan-1990','Banglore','M',45000,4);\par
+SQL> insert into emp(eno,ename,ebdate,address,gender,salary,deptno)values(1004,'Lakshmi','4-mar-1998','Mysore','F',55000,4);\par
+SQL> insert into emp(eno,ename,ebdate,address,gender,salary,deptno)values(1002,'Sinhcana','26-dec-1990','Manglore','F',50000,2);\par
+SQL> insert into emp(eno,ename,ebdate,address,gender,salary,deptno)values(1007,'Prashant','26-jan-1989','Dharwad','M',20000,4);\par
+SQL> insert into emp(eno,ename,ebdate,address,gender,salary,deptno)values(1003,'Vinay','26-nov-1990','Hubli','M',30000,2);\par
+SQL> insert into emp(eno,ename,ebdate,address,gender,salary,deptno)values(1005,'Vidya','26-nov-1978','Hubli','F',35000,4);\par
+SQL> insert into emp(eno,ename,ebdate,address,gender,salary,deptno)values(1006,'Prajwal','2-feb-1974','Banglore','M',65000,5);\par
+SQL> insert into emp(eno,ename,ebdate,address,gender,salary,deptno)values(1008,'Rajesh','2-feb-2010','Banglore','M',25000,2);\par
+\b\fs24 Project:\par
+\b0\fs22 SQL> insert into project(pno,pname,dnum)values(10,'erp',5);\par
+SQL> insert into project(pno,pname,dnum)values(20,'Banking',2);\par
+SQL> insert into project(pno,pname,dnum)values(30,'Connect_tech',4);\par
+SQL> insert into project(pno,pname,dnum)values(40,'Smart_seek',5);\par
+SQL> insert into project(pno,pname,dnum)values(50,'Finance',2);\par
+SQL> insert into project(pno,pname,dnum)values(60,'Analytica',4);\par
+SQL> insert into project(pno,pname,dnum)values(70,'Project_research',4);\par
+SQL> insert into project(pno,pname,dnum)values(80,'Smart_search',4);\par
+\b works on:\par
+\b0 SQL> insert into works_on(eno,pnum,hours)values(1001,10,4.5);\par
+SQL> insert into works_on(eno,pnum,hours)values(1002,10,6);\par
+SQL>  insert into works_on(eno,pnum,hours)values(1008,10,4);\par
+SQL>  insert into works_on(eno,pnum,hours)values(1006,20,4);\par
+SQL>  insert into works_on(eno,pnum,hours)values(1004,20,8);\par
+SQL>  insert into works_on(eno,pnum,hours)values(1005,40,8);\par
+SQL>  insert into works_on(eno,pnum,hours)values(1003,50,8);\par
+SQL>  insert into works_on(eno,pnum,hours)values(1007,60,5);\par
+\b\fs32 5)\par
+\b0\fs22 a]how the resulting salaries if every employee working on the 'Research' Departments is given a 10 percent raise.  \par
+SQL>select e.eno,e.ename,d.dname,1.1*e.salary as "INC_SALARY" from emp e,dept d where e.deptno=d.dno and d.dname='Research';\par
+b] Find the sum of the salaries of all employees of the 'Accounts' department, as well as the maximum salary,the minimum salary, and the average salary in this department.\par
+SQL>select max(e.salary),min(e.salary),sum(e.salary),avg(e.salary) from emp e,dept d where e.deptno=d.dno and d.dname='Accounts';\par
+\b\fs32 6]\b0\fs22\par
+a]Retrieve the number of each employee Controlled by department number 5(use EXISTS operator).\par
+SQL>select e.ename from emp e where exists(select d.dno from dept d where e.deptno=d.dno and e.deptno=5);\par
+b]Retrieve the name of each dept and number of employees working in each department which has atleast 2 employees. \par
+SQL>select d.dname,count(*) from emp e,dept d where e.deptno=d.dno group by d.dname having count(*)>=2;\par
+\b\fs32 7)\b0\fs22\par
+a] For each project,retrive the project number,the project name,and the number of employee who work on that project(use Group By)\par
+SQL>select p.pno,p.pname,count(*) as "no_of_emp" from project p,works_on w where p.pno=w.pnum group by p.pno,p.pname;\par
+\par
+b] Retrieve the name of employees who born in the year 1990\par
+SQL>select ename,ebdate from emp where ebdate like'%-%-90';\par
+\b\fs32 8)\b0\fs22\par
+a]For each department that has more than five employees, retrive the department number and number of employees who are making salary more than 40000\par
+ SQL>select d.dname,d.dno,count(*) as "No_of_Emp" from emp e, dept d where e.deptno=d.dno and e.salary>40000 and d.dno in(select deptno from emp group by deptno having count(*)>=5) group by d.dno,d.dname;\par
+b]For each department that has more than two  employees,retrieve the departmwnt number and number of employees who are making salary more than 40,000\par
+ SQL>select d.dname,d.dno,count(*) from emp e,dept d where e.deptno=d.dno and e.salary>40000 and d.dno in(select deptno from emp group by deptno having count(*)>2) group by d.dno,d.dname;\par
+\b\fs32 9)\par
+\fs24 For each project  on which more than two employees work,retrive the project number,project name and the number of employees who work on that project.\b0\fs22\par
+a] select p.pno,p.pname,count(*) as"No_of_Emp_Working" from project p,works_on w where p.pno=w.pnum group by p.pno,p.pname having count(*)>2;\par
+}
+ 
